@@ -1,0 +1,112 @@
+{
+  "assets": [],
+  "compatible_version": "0.1.0",
+  "kind": "SceneIR",
+  "meta": {
+    "author": "Thor Whalen",
+    "default_style": "cutout",
+    "duration": 45.0,
+    "fps": 30,
+    "notes": "",
+    "resolution": {
+      "height": 1080,
+      "width": 1920
+    },
+    "title": "Park Bench Cartoon"
+  },
+  "timeline": [
+    {
+      "actions": [],
+      "camera": {
+        "focal_length": 50.0,
+        "move": "hold",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "dialogue": [],
+      "duration": 8.0,
+      "entities": [],
+      "id": "s1",
+      "narration": [],
+      "options": {},
+      "style": "cutout"
+    },
+    {
+      "actions": [],
+      "camera": {
+        "focal_length": 50.0,
+        "move": "hold",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "dialogue": [
+        {
+          "duration": null,
+          "emotion": null,
+          "speaker": "charlie",
+          "start": null,
+          "text": "Did you ever wonder why we always meet here?",
+          "viseme_track": null,
+          "voice_ref": null
+        }
+      ],
+      "duration": 12.0,
+      "entities": [],
+      "id": "s2",
+      "narration": [],
+      "options": {},
+      "style": "cutout"
+    },
+    {
+      "actions": [],
+      "camera": {
+        "focal_length": 50.0,
+        "move": "push_in",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "dialogue": [
+        {
+          "duration": null,
+          "emotion": null,
+          "speaker": "maya",
+          "start": null,
+          "text": "Because the pigeons trust us.",
+          "viseme_track": null,
+          "voice_ref": null
+        }
+      ],
+      "duration": 25.0,
+      "entities": [],
+      "id": "s3",
+      "narration": [],
+      "options": {},
+      "style": "cutout"
+    }
+  ],
+  "version": "0.1.0"
+}

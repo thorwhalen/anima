@@ -19,7 +19,16 @@ keywords = [
 authors = [
     { name = "Thor Whalen" },
 ]
-dependencies = []
+dependencies = [
+    "pydantic",
+    "dol",
+    "argh",
+    "argcomplete",
+    "pyyaml",
+]
+
+[project.scripts]
+anima = "anima.__main__:main"
 
 [project.license]
 text = "mit"
@@ -38,6 +47,18 @@ dev = [
 docs = [
     "sphinx>=6.0",
     "sphinx-rtd-theme>=1.0",
+]
+cutout = [
+    "playwright",
+    "ffmpeg-python",
+    "numpy",
+]
+manim = [
+    "manim",
+]
+remotion = []
+tts = [
+    "elevenlabs",
 ]
 
 [tool.ruff]
