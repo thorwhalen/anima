@@ -6,6 +6,7 @@ AI-driven structured animation in Python. The user is the **director**; the AI a
 pip install anima
 ```
 
+
 ---
 
 ## What it does (and what it doesn't, yet)
