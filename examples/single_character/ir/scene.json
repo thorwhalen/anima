@@ -20,7 +20,15 @@
       "camera": null,
       "dialogue": [],
       "duration": 2.0,
-      "entities": [],
+      "entities": [
+        {
+          "id": "charlie",
+          "kind": "character",
+          "overrides": null,
+          "ref": "charlie-v1",
+          "store": "characters"
+        }
+      ],
       "id": "s1",
       "narration": [],
       "options": {},

@@ -58,9 +58,19 @@ from anima.adapters.cutout.serialize import (
 )
 
 
-# Default cutout part list when a character has no rig defined yet — keeps
-# the demo wirable without art assets present.
+# Default placeholder character: a recognizable stick-figure layout in pixel
+# space so the demo is *visible* without art assets. Each entry pins a part to
+# a (x, y) offset and gives it a distinct fill color. Used only when the
+# characters store has no rig info for the requested character.
 _PLACEHOLDER_PARTS: tuple[str, ...] = ("head", "torso", "left_arm", "right_arm")
+_PLACEHOLDER_PART_LAYOUT: dict[str, dict[str, float | str]] = {
+    "head": {"x": 0.0, "y": -55.0, "width": 50.0, "height": 50.0, "color": "#f4c89a"},
+    "torso": {"x": 0.0, "y": 0.0, "width": 60.0, "height": 80.0, "color": "#3a6ea5"},
+    "left_arm": {"x": -50.0, "y": -10.0, "width": 30.0, "height": 70.0, "color": "#3a6ea5"},
+    "right_arm": {"x": 50.0, "y": -10.0, "width": 30.0, "height": 70.0, "color": "#3a6ea5"},
+    "left_leg": {"x": -18.0, "y": 65.0, "width": 30.0, "height": 70.0, "color": "#2c3e50"},
+    "right_leg": {"x": 18.0, "y": 65.0, "width": 30.0, "height": 70.0, "color": "#2c3e50"},
+}
 
 
 def compile_shot(
@@ -134,19 +144,28 @@ def _build_character_subtree(
             char_meta = {}
 
     parts = char_meta.get("parts") or _PLACEHOLDER_PARTS
+    children: list[NodeJSON] = []
+    for part in parts:
+        layout = _PLACEHOLDER_PART_LAYOUT.get(
+            part, {"x": 0.0, "y": 0.0, "width": 50.0, "height": 50.0, "color": "#cccccc"}
+        )
+        children.append(
+            NodeJSON(
+                name=part,
+                transform=TransformJSON(x=float(layout["x"]), y=float(layout["y"])),
+                visual=VisualJSON(
+                    kind="rect",
+                    width=float(layout["width"]),
+                    height=float(layout["height"]),
+                    color=str(layout["color"]),
+                ),
+            )
+        )
     char_node = NodeJSON(
         name=entity.id,
         transform=TransformJSON(),
         slots={"root": SlotJSON(name="root")},
-        children=[
-            NodeJSON(
-                name=part,
-                visual=VisualJSON(
-                    kind="rect", width=50, height=50, color="#cccccc"
-                ),
-            )
-            for part in parts
-        ],
+        children=children,
     )
     if "head" in parts:
         # Pre-create the mouth slot on the head sub-node so lip-sync (Phase 4)

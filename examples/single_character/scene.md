@@ -1,6 +1,6 @@
 # Single Character Smoke
 
-The simplest renderable scene: one character (placeholder rect), one shot,
+The simplest renderable scene: one character (placeholder rect parts), one shot,
 two seconds. Used as the Phase 2D end-to-end test.
 
 ```yaml meta
@@ -17,4 +17,11 @@ default_style: cutout
 
 ```yaml shot
 duration: 2
+```
+
+```yaml entities
+- kind: character
+  id: charlie
+  store: characters
+  ref: charlie-v1
 ```

@@ -46,7 +46,7 @@ from typing import Any
 import yaml
 
 from anima.base import DEFAULT_DURATION
-from anima.ir.schema import Dialogue, Meta, SceneIR, Shot
+from anima.ir.schema import AssetRef, Dialogue, Meta, SceneIR, Shot
 from anima.util import _read_text, _write_json, _write_text
 
 
@@ -112,11 +112,13 @@ def markdown_to_ir(md_text: str) -> SceneIR:
     for shot_id, style, body in parts["__shots__"]:
         shot_yaml = _extract_yaml_block(body, "shot") or {}
         dialogue_block = _extract_dialogue_block(body)
+        entities_block = _extract_entities_block(body)
         shot_kwargs: dict[str, Any] = {
             "id": shot_id,
             "style": style or meta.default_style,
             "duration": shot_yaml.get("duration", DEFAULT_DURATION),
             "dialogue": dialogue_block,
+            "entities": entities_block,
         }
         # Camera, options, etc., come straight from the YAML if present.
         if "camera" in shot_yaml:
@@ -184,6 +186,35 @@ def _extract_dialogue_block(text: str) -> list[Dialogue]:
     return out
 
 
+def _extract_entities_block(text: str) -> list[AssetRef]:
+    """Parse a ```yaml entities block: a list of AssetRef-shaped dicts."""
+    raw = _extract_yaml_list_block(text, "entities")
+    if not raw:
+        return []
+    out: list[AssetRef] = []
+    for item in raw:
+        if not isinstance(item, dict):
+            raise ValueError(
+                f"each entry under `yaml entities` must be a mapping; got {item!r}"
+            )
+        out.append(AssetRef(**item))
+    return out
+
+
+def _extract_yaml_list_block(text: str, label: str) -> list[Any] | None:
+    """Parse a ```yaml <label> block whose body is a YAML list."""
+    for m in _FENCE_RE.finditer(text):
+        lang, lbl, body = m.group(1), m.group(2), m.group(3)
+        if lang == "yaml" and lbl == label:
+            data = yaml.safe_load(body)
+            if data is None:
+                return []
+            if not isinstance(data, list):
+                raise ValueError(f"YAML block {label!r} must be a list")
+            return data
+    return None
+
+
 # -----------------------------------------------------------------------------
 # IR → Markdown
 # -----------------------------------------------------------------------------
@@ -233,6 +264,14 @@ def ir_to_markdown(scene: SceneIR) -> str:
         parts.append("```yaml shot")
         parts.append(yaml.safe_dump(shot_yaml, sort_keys=False).rstrip())
         parts.append("```\n")
+        if shot.entities:
+            parts.append("```yaml entities")
+            entities_dump = [
+                e.model_dump(exclude_none=True, exclude_defaults=False)
+                for e in shot.entities
+            ]
+            parts.append(yaml.safe_dump(entities_dump, sort_keys=False).rstrip())
+            parts.append("```\n")
         if shot.dialogue:
             parts.append("```dialogue")
             for line in shot.dialogue:
