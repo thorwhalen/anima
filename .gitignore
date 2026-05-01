@@ -115,3 +115,10 @@ venv.bak/
 
 # PyCharm
 .idea
+
+# anima per-project ephemera (renders, intermediates, agent state)
+examples/*/output/
+examples/*/artifacts/
+examples/*/assets/
+examples/*/.anima/
+examples/*/anima.toml

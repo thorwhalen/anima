@@ -1,0 +1,31 @@
+{
+  "assets": [],
+  "compatible_version": "0.1.0",
+  "kind": "SceneIR",
+  "meta": {
+    "author": "",
+    "default_style": "cutout",
+    "duration": 2.0,
+    "fps": 24,
+    "notes": "",
+    "resolution": {
+      "height": 240,
+      "width": 320
+    },
+    "title": "Single Character Smoke"
+  },
+  "timeline": [
+    {
+      "actions": [],
+      "camera": null,
+      "dialogue": [],
+      "duration": 2.0,
+      "entities": [],
+      "id": "s1",
+      "narration": [],
+      "options": {},
+      "style": "cutout"
+    }
+  ],
+  "version": "0.1.0"
+}

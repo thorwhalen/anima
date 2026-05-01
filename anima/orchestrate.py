@@ -1,8 +1,11 @@
-"""Orchestrator entry points (Phase-1 stub).
+"""Orchestrator entry points.
 
 The full orchestration flow — interview → IR draft → validate → audio →
-render → verify → iterate — lands in Phase 5. Phase 1 ships only the entry
-points so the skill suite has stable names to call into.
+render → verify → iterate — lands in Phase 5. Today (Phase 2D) we have:
+
+- ``validate_project`` (Phase 1)
+- ``render_project`` (Phase 2D — wires through anima.render)
+- ``iterate`` (still a stub; Phase 5)
 """
 
 from __future__ import annotations
@@ -16,6 +19,7 @@ from anima.ir.validate import (
     validate_semantic,
 )
 from anima.project import Project, load
+from anima.render import render_project as _render_project
 
 
 def validate_project(project_dir: str | Path) -> ValidationReport:
@@ -30,12 +34,9 @@ def validate_project(project_dir: str | Path) -> ValidationReport:
     return schema_report.merge(semantic_report)
 
 
-def render_project(project_dir: str | Path) -> str:
-    """Render the project's scene. Phase-1 stub: not yet implemented."""
-    raise NotImplementedError(
-        "Render is not implemented in Phase 1. "
-        "The cutout adapter (Phase 2) wires this up."
-    )
+def render_project(project_dir: str | Path, *, output_name: str = "main") -> Path:
+    """Render the project's scene to a single mp4 under ``output/``."""
+    return _render_project(project_dir, output_name=output_name)
 
 
 def iterate(project_dir: str | Path, instruction: str) -> SceneIR:

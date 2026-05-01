@@ -30,6 +30,14 @@ dependencies = [
 [project.scripts]
 anima = "anima.__main__:main"
 
+[tool.hatch.build.targets.wheel]
+packages = ["anima"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"anima/data/cutout_runtime/index.html" = "anima/data/cutout_runtime/index.html"
+"anima/data/cutout_runtime/runtime.js" = "anima/data/cutout_runtime/runtime.js"
+"anima/data/cutout_runtime/README.md" = "anima/data/cutout_runtime/README.md"
+
 [project.license]
 text = "mit"
 

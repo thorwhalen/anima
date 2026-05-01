@@ -12,6 +12,7 @@ from pathlib import Path
 from anima.check_requirements import check_requirements as _check_requirements
 from anima.check_requirements import format_report
 from anima.ir.sync import sync as _sync
+from anima.orchestrate import render_project as _render_project
 from anima.orchestrate import validate_project
 from anima.project import init as _init
 
@@ -56,5 +57,15 @@ def check() -> str:
     return format_report(_check_requirements())
 
 
+def render(project_dir: str, output_name: str = "main") -> str:
+    """Render the project at ``project_dir`` to a single mp4.
+
+    project_dir: path to an anima project (must contain scene.md / ir/scene.json)
+    output_name: filename stem under output/ (default: "main")
+    """
+    output_path = _render_project(project_dir, output_name=output_name)
+    return f"rendered: {output_path}"
+
+
 # SSOT for the CLI dispatcher (per the python-dispatching skill convention).
-_dispatch_funcs = [init, validate, sync, check]
+_dispatch_funcs = [init, validate, sync, check, render]

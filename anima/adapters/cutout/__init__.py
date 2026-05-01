@@ -25,10 +25,11 @@ from anima.adapters.cutout.serialize import (
     TrackJSON,
     VisualJSON,
 )
-from anima.adapters.cutout._renderer_stub import CutoutRenderer
+from anima.adapters.cutout.render import CutoutRenderer, CutoutRenderError
 
 __all__ = [
     "CutoutRenderer",
+    "CutoutRenderError",
     "compile_shot",
     "CutoutSceneJSON",
     "NodeJSON",
